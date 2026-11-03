@@ -40,8 +40,10 @@ jobs:
 
       - name: Build APK
         run: |
-          python3 -m pip install --user --break-system-packages buildozer cython==0.29.36
-          export PATH="$HOME/.local/bin:$PATH"
+          python3 -m venv .venv
+          source .venv/bin/activate
+          pip install --upgrade pip setuptools wheel
+          pip install buildozer cython==0.29.36
           buildozer android debug
 
       - name: Upload APK
@@ -49,3 +51,4 @@ jobs:
         with:
           name: CSP-Android-APK
           path: bin/*.apk
+          if-no-files-found: error
